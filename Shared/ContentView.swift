@@ -12,12 +12,59 @@ struct ContentView: View {
     
     var body: some View {
         VStack {
-            header
-            offersCarousel
-            placeList
-            footer
+            HStack {
+                Text("My super cool app")
+                    .font(.title3)
+                    .fontWeight(.bold)
+                Spacer()
+                Image(systemName: "line.3.horizontal")
+                    .onTapGesture {
+                        sheetPresented.toggle()
+                    }
+            }
+            .padding(.bottom, 8)
+            
+            ScrollView(.horizontal, showsIndicators: false) {
+                LazyHStack {
+                    ForEach(Achievment.listOfAchievments, id: \.self) { achievement in
+                        VStack {
+                            Text(achievement.title)
+                                .font(.headline)
+                                .fontWeight(.bold)
+                            Image(systemName: achievement.badgeName)
+                                .padding()
+                            Text(achievement.dateEarned)
+                                .font(.caption)
+                                .fontWeight(.light)
+                        }
+                        .cornerRadius(10)
+                        .shadow(radius: 5)
+                        .padding()
+                        .overlay(
+                                RoundedRectangle(cornerRadius: 10)
+                                    .stroke(.black, lineWidth: 1)
+                            )
+                    }
+                }
+            }
+            
+            List {
+                Section("My List") {
+                    ForEach((1...10), id: \.self) {
+                        Text("\($0)")
+                    }
+                }
+            }
+            
+            HStack {
+                Image(systemName: "sun.min")
+                Image(systemName: "sun.max")
+                Image(systemName: "sun.max.circle")
+                Image(systemName: "sunrise")
+                Image(systemName: "sunset")
+            }
                 .sheet(isPresented: $sheetPresented) {
-                    mySheet
+                    Text("I'm a sheet!")
                 }
             Spacer()
         }
